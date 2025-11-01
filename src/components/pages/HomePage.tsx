@@ -78,7 +78,7 @@ export function HomePage({ onNavigate, persona, setPersona }: HomePageProps) {
               <p className="text-sm text-muted-foreground">{lang === 'pt' ? 'Selecione a persona que melhor descreve você' : 'Select the persona that best describes you'}</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-3">
+            <div className="grid md:grid-cols-2 gap-3">
               <Button
                 type="button"
                 variant={persona === 'anfitriao' ? 'default' : 'outline'}
@@ -86,14 +86,6 @@ export function HomePage({ onNavigate, persona, setPersona }: HomePageProps) {
                 className="w-full"
               >
                 {lang === 'pt' ? dict.pt.home.persona.host : dict.en.home.persona.host}
-              </Button>
-              <Button
-                type="button"
-                variant={persona === 'arbitro' ? 'default' : 'outline'}
-                onClick={() => setPersona('arbitro')}
-                className="w-full"
-              >
-                {lang === 'pt' ? dict.pt.home.persona.arbitrator : dict.en.home.persona.arbitrator}
               </Button>
               <Button
                 type="button"
