@@ -66,8 +66,9 @@ import path from 'path';
       },
       proxy: {
         '/api': {
-          target: 'http://localhost:7071',
+          target: 'https://api.fristad.com.br',
           changeOrigin: true,
+          secure: true,
         },
       },
     },
