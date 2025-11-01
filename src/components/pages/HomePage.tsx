@@ -7,10 +7,11 @@ import { dict, getLang, setLang, type Lang } from "../../i18n";
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
+  persona: 'anfitriao' | 'nomade' | '';
+  setPersona: (persona: 'anfitriao' | 'nomade' | '') => void;
 }
 
-export function HomePage({ onNavigate }: HomePageProps) {
-  const [persona, setPersona] = useState<'anfitriao' | 'arbitro' | 'nomade' | ''>('');
+export function HomePage({ onNavigate, persona, setPersona }: HomePageProps) {
   const [isDark, setIsDark] = useState(false);
   const [lang, setLangState] = useState<Lang>('pt');
 
