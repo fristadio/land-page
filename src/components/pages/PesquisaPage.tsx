@@ -10,10 +10,11 @@ import { postInterest } from "../../lib/api";
 
 interface PesquisaPageProps {
   onNavigate: (page: string) => void;
+  persona: 'anfitriao' | 'nomade' | '';
+  setPersona: (persona: 'anfitriao' | 'nomade' | '') => void;
 }
 
-export function PesquisaPage({ onNavigate }: PesquisaPageProps) {
-  const [persona, setPersona] = useState<'anfitriao' | 'arbitro' | 'nomade' | ''>('');
+export function PesquisaPage({ onNavigate, persona, setPersona }: PesquisaPageProps) {
   const [lang, setLangState] = useState<Lang>('pt');
   useEffect(() => setLangState(getLang()), []);
   const [nome, setNome] = useState("");

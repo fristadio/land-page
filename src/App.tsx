@@ -34,6 +34,7 @@ function PlaceholderPage({
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
+  const [persona, setPersona] = useState<'anfitriao' | 'nomade' | ''>('');
 
   // Handle browser back/forward
   useEffect(() => {
@@ -55,9 +56,9 @@ export default function App() {
   const renderPage = () => {
     switch (currentPage) {
       case "home":
-        return <HomePage onNavigate={navigateTo} />;
+        return <HomePage onNavigate={navigateTo} persona={persona} setPersona={setPersona} />;
       case "pesquisa":
-        return <PesquisaPage onNavigate={navigateTo} />;
+        return <PesquisaPage onNavigate={navigateTo} persona={persona} setPersona={setPersona} />;
       case "obrigado":
         return <ObrigadoPage onNavigate={navigateTo} />;
       case "como-funciona":
