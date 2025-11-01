@@ -67,9 +67,8 @@ export function PesquisaPage({ onNavigate, persona, setPersona }: PesquisaPagePr
         <Card className="p-8 space-y-8">
           <div className="space-y-3">
             <h2>{lang === 'pt' ? dict.pt.pesquisa.who : dict.en.pesquisa.who}</h2>
-            <div className="grid md:grid-cols-3 gap-3">
+            <div className="grid md:grid-cols-2 gap-3">
               <Button type="button" variant={persona === 'anfitriao' ? 'default' : 'outline'} onClick={() => setPersona('anfitriao')} className="w-full">{lang === 'pt' ? dict.pt.pesquisa.persona.host : dict.en.pesquisa.persona.host}</Button>
-              <Button type="button" variant={persona === 'arbitro' ? 'default' : 'outline'} onClick={() => setPersona('arbitro')} className="w-full">{lang === 'pt' ? dict.pt.pesquisa.persona.arbitrator : dict.en.pesquisa.persona.arbitrator}</Button>
               <Button type="button" variant={persona === 'nomade' ? 'default' : 'outline'} onClick={() => setPersona('nomade')} className="w-full">{lang === 'pt' ? dict.pt.pesquisa.persona.nomad : dict.en.pesquisa.persona.nomad}</Button>
             </div>
           </div>
