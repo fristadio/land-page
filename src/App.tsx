@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { SEOHead } from "./components/SEOHead";
+import { getPageMetadata, siteMetadata } from "./config/seo";
 import { Layout } from "./components/Layout";
 import { HomePage } from "./components/pages/HomePage";
 import { ComoFuncionaPage } from "./components/pages/ComoFuncionaPage";
@@ -123,34 +125,20 @@ export default function App() {
     }
   };
 
-  const getPageTitle = () => {
-    const titles: Record<string, string> = {
-      home: "Fristad - Moradia Sem Fronteiras",
-      pesquisa: "Pesquisa e Cadastro - Fristad",
-      obrigado: "Obrigado - Fristad",
-      "como-funciona": "Como Funciona - Fristad",
-      hospedes: "Para Hóspedes - Fristad",
-      anfitrioes: "Para Anfitriões - Fristad",
-      arbitragem: "Arbitragem - Fristad",
-      hubs: "Hubs Piloto - Fristad",
-      sobre: "Sobre - Fristad",
-      faq: "FAQ - Fristad",
-      contato: "Contato - Fristad",
-      legal: "Termos de Uso - Fristad",
-      privacidade: "Política de Privacidade - Fristad",
-    };
-    return (
-      titles[currentPage] || "Fristad - Moradia Sem Fronteiras"
-    );
-  };
-
-  // Update document title
-  useEffect(() => {
-    document.title = getPageTitle();
-  }, [currentPage]);
+  // Get current page metadata
+  const pageMetadata = getPageMetadata(currentPage);
+  const canonical = `${siteMetadata.siteUrl}/#${currentPage}`;
 
   return (
     <>
+      <SEOHead
+        title={pageMetadata.title}
+        description={pageMetadata.description}
+        canonical={canonical}
+        ogImage={pageMetadata.ogImage}
+        ogType={pageMetadata.ogType}
+        keywords={pageMetadata.keywords}
+      />
       <Layout currentPage={currentPage} onNavigate={navigateTo}>
         {renderPage()}
       </Layout>
