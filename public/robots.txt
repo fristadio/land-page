@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://fristad.com.br/sitemap.xml
+Sitemap: https://www.fristad.com.br/sitemap.xml
+
+# Rate limiting (be nice to servers)
+Crawl-delay: 1
+
