@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Layout } from "./components/Layout";
 import { HomePage } from "./components/pages/HomePage";
 import { ComoFuncionaPage } from "./components/pages/ComoFuncionaPage";
@@ -154,6 +155,7 @@ export default function App() {
         {renderPage()}
       </Layout>
       <Analytics />
+      <SpeedInsights />
     </>
   );
 }
