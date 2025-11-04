@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { Layout } from "./components/Layout";
 import { HomePage } from "./components/pages/HomePage";
 import { ComoFuncionaPage } from "./components/pages/ComoFuncionaPage";
@@ -148,8 +149,11 @@ export default function App() {
   }, [currentPage]);
 
   return (
-    <Layout currentPage={currentPage} onNavigate={navigateTo}>
-      {renderPage()}
-    </Layout>
+    <>
+      <Layout currentPage={currentPage} onNavigate={navigateTo}>
+        {renderPage()}
+      </Layout>
+      <Analytics />
+    </>
   );
 }
