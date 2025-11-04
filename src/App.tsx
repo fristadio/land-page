@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { SEOHead } from "./components/SEOHead";
@@ -37,97 +38,22 @@ function PlaceholderPage({
 }
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const location = useLocation();
   const [persona, setPersona] = useState<'anfitriao' | 'nomade' | ''>('');
 
-  // Handle browser back/forward
-  useEffect(() => {
-    const handlePopState = (event: PopStateEvent) => {
-      setCurrentPage(event.state?.page || "home");
-    };
-
-    window.addEventListener("popstate", handlePopState);
-    return () =>
-      window.removeEventListener("popstate", handlePopState);
-  }, []);
-
-  const navigateTo = (page: string) => {
-    setCurrentPage(page);
-    window.history.pushState({ page }, "", `#${page}`);
-    window.scrollTo(0, 0);
+  // Map location pathname to page name for SEO and Layout
+  const getPageName = (pathname: string): string => {
+    const path = pathname.slice(1); // Remove leading /
+    return path || 'home';
   };
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case "home":
-        return <HomePage onNavigate={navigateTo} persona={persona} setPersona={setPersona} />;
-      case "pesquisa":
-        return <PesquisaPage onNavigate={navigateTo} persona={persona} setPersona={setPersona} />;
-      case "obrigado":
-        return <ObrigadoPage onNavigate={navigateTo} />;
-      case "como-funciona":
-        return <ComoFuncionaPage onNavigate={navigateTo} />;
-      case "hospedes":
-        return <HospedesPage onNavigate={navigateTo} />;
-      case "anfitrioes":
-        return (
-          <PlaceholderPage
-            title="Para Anfitriões"
-            description="Disponibilize sua propriedade com autonomia completa."
-          />
-        );
-      case "arbitragem":
-        return (
-          <PlaceholderPage
-            title="Arbitragem"
-            description="Mediação independente para resolução justa de conflitos."
-          />
-        );
-      case "hubs":
-        return (
-          <PlaceholderPage
-            title="Hubs Piloto"
-            description="Conheça as cidades onde a Fristad está ativa."
-          />
-        );
-      case "sobre":
-        return <SobrePage onNavigate={navigateTo} />;
-      case "faq":
-        return (
-          <PlaceholderPage
-            title="Perguntas Frequentes"
-            description="Respostas para as dúvidas mais comuns sobre a Fristad."
-          />
-        );
-      case "contato":
-        return (
-          <PlaceholderPage
-            title="Contato"
-            description="Entre em contato conosco para dúvidas ou suporte."
-          />
-        );
-      case "legal":
-        return (
-          <PlaceholderPage
-            title="Termos de Uso"
-            description="Termos legais e condições de uso da plataforma."
-          />
-        );
-      case "privacidade":
-        return (
-          <PlaceholderPage
-            title="Política de Privacidade"
-            description="Como protegemos e utilizamos seus dados pessoais."
-          />
-        );
-      default:
-        return <HomePage onNavigate={navigateTo} />;
-    }
-  };
+  const currentPage = getPageName(location.pathname);
 
   // Get current page metadata
   const pageMetadata = getPageMetadata(currentPage);
-  const canonical = `${siteMetadata.siteUrl}/#${currentPage}`;
+  const canonical = currentPage === 'home' 
+    ? siteMetadata.siteUrl
+    : `${siteMetadata.siteUrl}/${currentPage}`;
 
   return (
     <>
@@ -139,8 +65,96 @@ export default function App() {
         ogType={pageMetadata.ogType}
         keywords={pageMetadata.keywords}
       />
-      <Layout currentPage={currentPage} onNavigate={navigateTo}>
-        {renderPage()}
+      <Layout currentPage={currentPage}>
+        <Routes>
+          <Route 
+            path="/" 
+            element={<HomePage persona={persona} setPersona={setPersona} />} 
+          />
+          <Route 
+            path="/pesquisa" 
+            element={<PesquisaPage persona={persona} setPersona={setPersona} />} 
+          />
+          <Route 
+            path="/obrigado" 
+            element={<ObrigadoPage />} 
+          />
+          <Route 
+            path="/como-funciona" 
+            element={<ComoFuncionaPage />} 
+          />
+          <Route 
+            path="/hospedes" 
+            element={<HospedesPage />} 
+          />
+          <Route 
+            path="/sobre" 
+            element={<SobrePage />} 
+          />
+          <Route
+            path="/anfitrioes"
+            element={
+              <PlaceholderPage
+                title="Para Anfitriões"
+                description="Disponibilize sua propriedade com autonomia completa."
+              />
+            }
+          />
+          <Route
+            path="/arbitragem"
+            element={
+              <PlaceholderPage
+                title="Arbitragem"
+                description="Mediação independente para resolução justa de conflitos."
+              />
+            }
+          />
+          <Route
+            path="/hubs"
+            element={
+              <PlaceholderPage
+                title="Hubs Piloto"
+                description="Conheça as cidades onde a Fristad está ativa."
+              />
+            }
+          />
+          <Route
+            path="/faq"
+            element={
+              <PlaceholderPage
+                title="Perguntas Frequentes"
+                description="Respostas para as dúvidas mais comuns sobre a Fristad."
+              />
+            }
+          />
+          <Route
+            path="/contato"
+            element={
+              <PlaceholderPage
+                title="Contato"
+                description="Entre em contato conosco para dúvidas ou suporte."
+              />
+            }
+          />
+          <Route
+            path="/legal"
+            element={
+              <PlaceholderPage
+                title="Termos de Uso"
+                description="Termos legais e condições de uso da plataforma."
+              />
+            }
+          />
+          <Route
+            path="/privacidade"
+            element={
+              <PlaceholderPage
+                title="Política de Privacidade"
+                description="Como protegemos e utilizamos seus dados pessoais."
+              />
+            }
+          />
+        </Routes>
       </Layout>
       <Analytics />
       <SpeedInsights />

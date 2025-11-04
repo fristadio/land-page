@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
@@ -9,12 +10,12 @@ import { PrivacyPolicyModal } from "../PrivacyPolicyModal";
 import { postInterest } from "../../lib/api";
 
 interface PesquisaPageProps {
-  onNavigate: (page: string) => void;
   persona: 'anfitriao' | 'nomade' | '';
   setPersona: (persona: 'anfitriao' | 'nomade' | '') => void;
 }
 
-export function PesquisaPage({ onNavigate, persona, setPersona }: PesquisaPageProps) {
+export function PesquisaPage({ persona, setPersona }: PesquisaPageProps) {
+  const navigate = useNavigate();
   const [lang, setLangState] = useState<Lang>('pt');
   useEffect(() => setLangState(getLang()), []);
   const [nome, setNome] = useState("");
@@ -46,7 +47,7 @@ export function PesquisaPage({ onNavigate, persona, setPersona }: PesquisaPagePr
         propertySummary: persona === 'anfitriao' ? (propResumo || undefined) : undefined,
         consent,
       });
-      onNavigate('obrigado');
+      navigate('/obrigado');
     } catch (err: any) {
       setError(err?.message || 'Erro ao enviar. Tente novamente.');
     } finally {

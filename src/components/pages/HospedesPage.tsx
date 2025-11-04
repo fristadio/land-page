@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { CheckCircle, ArrowRight, MapPin, Clock, Shield, Star, Calendar, Users, Home } from "lucide-react";
 import { Button } from "../ui/button";
@@ -7,10 +8,9 @@ import { Badge } from "../ui/badge";
 import { Checkbox } from "../ui/checkbox";
 
 interface HospedesPageProps {
-  onNavigate: (page: string) => void;
 }
 
-export function HospedesPage({ onNavigate }: HospedesPageProps) {
+export function HospedesPage() {
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
 
@@ -122,9 +122,9 @@ export function HospedesPage({ onNavigate }: HospedesPageProps) {
               Quero participar
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
-            <Button size="lg" variant="outline" onClick={() => onNavigate('como-funciona')}>
+            <Link to="/como-funciona"><Button size="lg" variant="outline" >
               Como funciona
-            </Button>
+            </Button></Link>
           </div>
         </div>
       </section>
@@ -228,9 +228,9 @@ export function HospedesPage({ onNavigate }: HospedesPageProps) {
                   Nossa equipe te acompanha durante todo o processo, desde a busca inicial 
                   até a finalização do acordo.
                 </p>
-                <Button variant="outline" onClick={() => onNavigate('contato')}>
+                <Link to="/contato"><Button variant="outline" >
                   Fale conosco
-                </Button>
+                </Button></Link>
               </div>
             </Card>
           </div>
@@ -319,9 +319,9 @@ export function HospedesPage({ onNavigate }: HospedesPageProps) {
           </div>
 
           <div className="text-center mt-8">
-            <Button variant="outline" onClick={() => onNavigate('faq')}>
+            <Link to="/faq"><Button variant="outline" >
               Ver todas as perguntas
-            </Button>
+            </Button></Link>
           </div>
         </div>
       </section>
@@ -359,7 +359,7 @@ export function HospedesPage({ onNavigate }: HospedesPageProps) {
                   Concordo em receber comunicações da Fristad e aceito a{' '}
                   <button 
                     type="button"
-                    onClick={() => onNavigate('privacidade')}
+                    to="/privacidade"
                     className="text-primary hover:underline"
                   >
                     política de privacidade

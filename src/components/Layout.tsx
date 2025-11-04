@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { Button } from "./ui/button";
 import { FristadLogo } from "./FristadLogo";
 
 interface LayoutProps {
   children: React.ReactNode;
   currentPage: string;
-  onNavigate: (page: string) => void;
 }
 
-export function Layout({ children, currentPage, onNavigate }: LayoutProps) {
+export function Layout({ children, currentPage }: LayoutProps) {
   const [isDark, setIsDark] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -28,21 +28,16 @@ export function Layout({ children, currentPage, onNavigate }: LayoutProps) {
   };
 
   const navigation = [
-    { name: 'Início', href: 'home' },
-    { name: 'Como Funciona', href: 'como-funciona' },
-    { name: 'Para Hóspedes', href: 'hospedes' },
-    { name: 'Para Anfitriões', href: 'anfitrioes' },
-    { name: 'Arbitragem', href: 'arbitragem' },
-    { name: 'Hubs Piloto', href: 'hubs' },
-    { name: 'Sobre', href: 'sobre' },
-    { name: 'FAQ', href: 'faq' },
-    { name: 'Contato', href: 'contato' }
+    { name: 'Início', href: '/' },
+    { name: 'Como Funciona', href: '/como-funciona' },
+    { name: 'Para Hóspedes', href: '/hospedes' },
+    { name: 'Para Anfitriões', href: '/anfitrioes' },
+    { name: 'Arbitragem', href: '/arbitragem' },
+    { name: 'Hubs Piloto', href: '/hubs' },
+    { name: 'Sobre', href: '/sobre' },
+    { name: 'FAQ', href: '/faq' },
+    { name: 'Contato', href: '/contato' }
   ];
-
-  const handleNavClick = (href: string) => {
-    onNavigate(href);
-    setIsMobileMenuOpen(false);
-  };
 
   const isLanding = currentPage === 'home';
   const isMinimalPage = currentPage === 'home' || currentPage === 'pesquisa' || currentPage === 'obrigado';
@@ -56,29 +51,32 @@ export function Layout({ children, currentPage, onNavigate }: LayoutProps) {
           <div className="flex items-center h-16">
             {/* Brand */}
             <div className="flex items-center">
-              <button 
-                onClick={() => handleNavClick('home')}
+              <Link 
+                to="/"
                 className="flex items-center space-x-2 group"
               >
                 <FristadLogo size="2xl" />
-              </button>
+              </Link>
             </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8 ml-16 flex-1">
-              {navigation.map((item) => (
-                <button
-                  key={item.href}
-                  onClick={() => handleNavClick(item.href)}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
-                    currentPage === item.href 
-                      ? 'text-primary' 
-                      : 'text-muted-foreground'
-                  }`}
-                >
-                  {item.name}
-                </button>
-              ))}
+              {navigation.map((item) => {
+                const itemPage = item.href === '/' ? 'home' : item.href.slice(1);
+                return (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className={`text-sm font-medium transition-colors hover:text-primary ${
+                      currentPage === itemPage
+                        ? 'text-primary' 
+                        : 'text-muted-foreground'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
             </nav>
 
             {/* Actions */}
@@ -94,19 +92,19 @@ export function Layout({ children, currentPage, onNavigate }: LayoutProps) {
               </Button>
 
               <div className="hidden md:flex items-center space-x-2">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => handleNavClick('contato')}
-                >
-                  Quero participar
-                </Button>
-                <Button 
-                  size="sm"
-                  onClick={() => handleNavClick('anfitrioes')}
-                >
-                  Quero hospedar
-                </Button>
+                <Link to="/contato">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                  >
+                    Quero participar
+                  </Button>
+                </Link>
+                <Link to="/anfitrioes">
+                  <Button size="sm">
+                    Quero hospedar
+                  </Button>
+                </Link>
               </div>
 
               {/* Mobile menu button */}
@@ -127,35 +125,41 @@ export function Layout({ children, currentPage, onNavigate }: LayoutProps) {
         {isMobileMenuOpen && (
           <div className="lg:hidden border-t border-border bg-card">
             <div className="px-4 py-3 space-y-3">
-              {navigation.map((item) => (
-                <button
-                  key={item.href}
-                  onClick={() => handleNavClick(item.href)}
-                  className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                    currentPage === item.href
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                  }`}
-                >
-                  {item.name}
-                </button>
-              ))}
+              {navigation.map((item) => {
+                const itemPage = item.href === '/' ? 'home' : item.href.slice(1);
+                return (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      currentPage === itemPage
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
               <div className="pt-3 space-y-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="w-full"
-                  onClick={() => handleNavClick('contato')}
-                >
-                  Quero participar
-                </Button>
-                <Button 
-                  size="sm" 
-                  className="w-full"
-                  onClick={() => handleNavClick('anfitrioes')}
-                >
-                  Quero hospedar
-                </Button>
+                <Link to="/contato" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full"
+                  >
+                    Quero participar
+                  </Button>
+                </Link>
+                <Link to="/anfitrioes" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button 
+                    size="sm" 
+                    className="w-full"
+                  >
+                    Quero hospedar
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -187,10 +191,10 @@ export function Layout({ children, currentPage, onNavigate }: LayoutProps) {
             <div className="space-y-4">
               <h3 className="font-semibold">Produto</h3>
               <div className="space-y-2">
-                <button onClick={() => handleNavClick('como-funciona')} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Como Funciona</button>
-                <button onClick={() => handleNavClick('hospedes')} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Para Hóspedes</button>
-                <button onClick={() => handleNavClick('anfitrioes')} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Para Anfitriões</button>
-                <button onClick={() => handleNavClick('arbitragem')} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Arbitragem</button>
+                <Link to="/como-funciona" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Como Funciona</Link>
+                <Link to="/hospedes" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Para Hóspedes</Link>
+                <Link to="/anfitrioes" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Para Anfitriões</Link>
+                <Link to="/arbitragem" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Arbitragem</Link>
               </div>
             </div>
 
@@ -198,10 +202,10 @@ export function Layout({ children, currentPage, onNavigate }: LayoutProps) {
             <div className="space-y-4">
               <h3 className="font-semibold">Empresa</h3>
               <div className="space-y-2">
-                <button onClick={() => handleNavClick('sobre')} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Sobre</button>
-                <button onClick={() => handleNavClick('hubs')} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Hubs Piloto</button>
-                <button onClick={() => handleNavClick('faq')} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</button>
-                <button onClick={() => handleNavClick('contato')} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Contato</button>
+                <Link to="/sobre" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Sobre</Link>
+                <Link to="/hubs" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Hubs Piloto</Link>
+                <Link to="/faq" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</Link>
+                <Link to="/contato" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Contato</Link>
               </div>
             </div>
 
@@ -209,8 +213,8 @@ export function Layout({ children, currentPage, onNavigate }: LayoutProps) {
             <div className="space-y-4">
               <h3 className="font-semibold">Legal</h3>
               <div className="space-y-2">
-                <button onClick={() => handleNavClick('legal')} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Termos de Uso</button>
-                <button onClick={() => handleNavClick('privacidade')} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Privacidade</button>
+                <Link to="/legal" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Termos de Uso</Link>
+                <Link to="/privacidade" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">Privacidade</Link>
               </div>
             </div>
           </div>

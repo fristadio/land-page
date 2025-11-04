@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
@@ -5,10 +6,9 @@ import { dict, getLang, type Lang } from "../../i18n";
 import { useEffect, useState } from "react";
 
 interface ObrigadoPageProps {
-  onNavigate: (page: string) => void;
 }
 
-export function ObrigadoPage({ onNavigate }: ObrigadoPageProps) {
+export function ObrigadoPage() {
   const SHOW_INSTITUTIONAL_LINK = false;
   const [lang, setLangState] = useState<Lang>('pt');
   useEffect(() => setLangState(getLang()), []);
@@ -26,9 +26,13 @@ export function ObrigadoPage({ onNavigate }: ObrigadoPageProps) {
             {lang === 'pt' ? dict.pt.obrigado.desc : dict.en.obrigado.desc}
           </p>
           <div className="flex gap-3 justify-center">
-            <Button onClick={() => onNavigate('home')}>{lang === 'pt' ? dict.pt.obrigado.backHome : dict.en.obrigado.backHome}</Button>
+            <Link to="/">
+              <Button>{lang === 'pt' ? dict.pt.obrigado.backHome : dict.en.obrigado.backHome}</Button>
+            </Link>
             {SHOW_INSTITUTIONAL_LINK && (
-              <Button variant="outline" onClick={() => onNavigate('sobre')}>{lang === 'pt' ? dict.pt.obrigado.learn : dict.en.obrigado.learn}</Button>
+              <Link to="/sobre">
+                <Button variant="outline">{lang === 'pt' ? dict.pt.obrigado.learn : dict.en.obrigado.learn}</Button>
+              </Link>
             )}
           </div>
         </Card>

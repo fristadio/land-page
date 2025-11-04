@@ -1,13 +1,13 @@
+import { Link } from "react-router-dom";
 import { CheckCircle, Users, FileText, Shield, ArrowRight, Clock, MapPin, CreditCard } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 
 interface ComoFuncionaPageProps {
-  onNavigate: (page: string) => void;
 }
 
-export function ComoFuncionaPage({ onNavigate }: ComoFuncionaPageProps) {
+export function ComoFuncionaPage() {
   const processo = [
     {
       fase: "1",
@@ -211,10 +211,10 @@ export function ComoFuncionaPage({ onNavigate }: ComoFuncionaPageProps) {
                 </div>
               </div>
 
-              <Button onClick={() => onNavigate('hospedes')}>
+              <Link to="/hospedes"><Button >
                 Ver como participar
                 <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
+              </Button></Link>
             </div>
 
             <Card className="p-8">
@@ -288,12 +288,12 @@ export function ComoFuncionaPage({ onNavigate }: ComoFuncionaPageProps) {
                 Diferente de tribunais tradicionais, nossa arbitragem é especializada em acordos de moradia, 
                 oferecendo resoluções rápidas, econômicas e definitivas.
               </p>
-              <Button 
+              <Link to="/arbitragem"><Button 
                 variant="outline" 
-                onClick={() => onNavigate('arbitragem')}
+                
               >
                 Saiba mais sobre arbitragem
-              </Button>
+              </Button></Link>
             </div>
           </Card>
         </div>
@@ -361,12 +361,12 @@ export function ComoFuncionaPage({ onNavigate }: ComoFuncionaPageProps) {
               </div>
             </div>
 
-            <Button 
+            <Link to="/sobre"><Button 
               variant="outline" 
-              onClick={() => onNavigate('sobre')}
+              
             >
               Conheça nossa filosofia
-            </Button>
+            </Button></Link>
           </Card>
         </div>
       </section>
@@ -382,19 +382,19 @@ export function ComoFuncionaPage({ onNavigate }: ComoFuncionaPageProps) {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
+            <Link to="/hospedes"><Button 
               size="lg"
-              onClick={() => onNavigate('hospedes')}
+              
             >
               Quero participar
-            </Button>
-            <Button 
+            </Button></Link>
+            <Link to="/anfitrioes"><Button 
               size="lg" 
               variant="outline"
-              onClick={() => onNavigate('anfitrioes')}
+              
             >
               Quero hospedar
-            </Button>
+            </Button></Link>
           </div>
         </div>
       </section>

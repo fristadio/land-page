@@ -1,13 +1,13 @@
+import { Link } from "react-router-dom";
 import { ArrowRight, Shield, Users, Globe, Heart, Target, CheckCircle, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 
 interface SobrePageProps {
-  onNavigate: (page: string) => void;
 }
 
-export function SobrePage({ onNavigate }: SobrePageProps) {
+export function SobrePage() {
   const principios = [
     {
       icone: <Users className="w-8 h-8" />,
@@ -362,12 +362,12 @@ export function SobrePage({ onNavigate }: SobrePageProps) {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button onClick={() => onNavigate('privacidade')}>
+              <Link to="/privacidade"><Button >
                 Política de Privacidade
-              </Button>
-              <Button variant="outline" onClick={() => onNavigate('legal')}>
+              </Button></Link>
+              <Link to="/legal"><Button variant="outline" >
                 Termos de Uso
-              </Button>
+              </Button></Link>
             </div>
           </Card>
         </div>
@@ -385,16 +385,16 @@ export function SobrePage({ onNavigate }: SobrePageProps) {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" onClick={() => onNavigate('hospedes')}>
+            <Link to="/hospedes"><Button size="lg" >
               Quero participar
               <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-            <Button size="lg" variant="outline" onClick={() => onNavigate('anfitrioes')}>
+            </Button></Link>
+            <Link to="/anfitrioes"><Button size="lg" variant="outline" >
               Quero hospedar
-            </Button>
-            <Button size="lg" variant="outline" onClick={() => onNavigate('contato')}>
+            </Button></Link>
+            <Link to="/contato"><Button size="lg" variant="outline" >
               Entrar em contato
-            </Button>
+            </Button></Link>
           </div>
         </div>
       </section>

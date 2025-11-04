@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight, Moon, Sun } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
@@ -6,16 +7,13 @@ import { FristadLogo } from "../FristadLogo";
 import { dict, getLang, setLang, type Lang } from "../../i18n";
 
 interface HomePageProps {
-  onNavigate: (page: string) => void;
   persona: 'anfitriao' | 'nomade' | '';
   setPersona: (persona: 'anfitriao' | 'nomade' | '') => void;
 }
 
-export function HomePage({ onNavigate, persona, setPersona }: HomePageProps) {
+export function HomePage({ persona, setPersona }: HomePageProps) {
   const [isDark, setIsDark] = useState(false);
   const [lang, setLangState] = useState<Lang>('pt');
-
-  const goToPesquisa = () => onNavigate('pesquisa');
 
   useEffect(() => {
     const stored = localStorage.getItem('fristad-theme');
@@ -98,10 +96,12 @@ export function HomePage({ onNavigate, persona, setPersona }: HomePageProps) {
             </div>
 
             <div className="pt-2">
-              <Button size="lg" className="w-full" onClick={goToPesquisa}>
-                {lang === 'pt' ? dict.pt.home.ctaGo : dict.en.home.ctaGo}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
+              <Link to="/pesquisa">
+                <Button size="lg" className="w-full">
+                  {lang === 'pt' ? dict.pt.home.ctaGo : dict.en.home.ctaGo}
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
               <p className="text-xs text-muted-foreground mt-3">
                 {lang === 'pt' ? dict.pt.home.ctaNote : dict.en.home.ctaNote}
               </p>
