@@ -98,9 +98,9 @@ export function HomePage({ persona, setPersona }: HomePageProps) {
             <div className="pt-2">
               <Link to="/pesquisa">
                 <Button size="lg" className="w-full">
-                  {lang === 'pt' ? dict.pt.home.ctaGo : dict.en.home.ctaGo}
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
+                {lang === 'pt' ? dict.pt.home.ctaGo : dict.en.home.ctaGo}
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
               </Link>
               <p className="text-xs text-muted-foreground mt-3">
                 {lang === 'pt' ? dict.pt.home.ctaNote : dict.en.home.ctaNote}

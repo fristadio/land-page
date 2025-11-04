@@ -55,7 +55,7 @@ export default function App() {
     ? siteMetadata.siteUrl
     : `${siteMetadata.siteUrl}/${currentPage}`;
 
-  return (
+        return (
     <>
       <SEOHead
         title={pageMetadata.title}
@@ -94,68 +94,68 @@ export default function App() {
           <Route
             path="/anfitrioes"
             element={
-              <PlaceholderPage
-                title="Para Anfitriões"
-                description="Disponibilize sua propriedade com autonomia completa."
-              />
+          <PlaceholderPage
+            title="Para Anfitriões"
+            description="Disponibilize sua propriedade com autonomia completa."
+          />
             }
           />
           <Route
             path="/arbitragem"
             element={
-              <PlaceholderPage
-                title="Arbitragem"
-                description="Mediação independente para resolução justa de conflitos."
-              />
+          <PlaceholderPage
+            title="Arbitragem"
+            description="Mediação independente para resolução justa de conflitos."
+          />
             }
           />
           <Route
             path="/hubs"
             element={
-              <PlaceholderPage
-                title="Hubs Piloto"
-                description="Conheça as cidades onde a Fristad está ativa."
-              />
+          <PlaceholderPage
+            title="Hubs Piloto"
+            description="Conheça as cidades onde a Fristad está ativa."
+          />
             }
           />
           <Route
             path="/faq"
             element={
-              <PlaceholderPage
-                title="Perguntas Frequentes"
-                description="Respostas para as dúvidas mais comuns sobre a Fristad."
-              />
+          <PlaceholderPage
+            title="Perguntas Frequentes"
+            description="Respostas para as dúvidas mais comuns sobre a Fristad."
+          />
             }
           />
           <Route
             path="/contato"
             element={
-              <PlaceholderPage
-                title="Contato"
-                description="Entre em contato conosco para dúvidas ou suporte."
-              />
+          <PlaceholderPage
+            title="Contato"
+            description="Entre em contato conosco para dúvidas ou suporte."
+          />
             }
           />
           <Route
             path="/legal"
             element={
-              <PlaceholderPage
-                title="Termos de Uso"
-                description="Termos legais e condições de uso da plataforma."
-              />
+          <PlaceholderPage
+            title="Termos de Uso"
+            description="Termos legais e condições de uso da plataforma."
+          />
             }
           />
           <Route
             path="/privacidade"
             element={
-              <PlaceholderPage
-                title="Política de Privacidade"
-                description="Como protegemos e utilizamos seus dados pessoais."
-              />
+          <PlaceholderPage
+            title="Política de Privacidade"
+            description="Como protegemos e utilizamos seus dados pessoais."
+          />
             }
           />
         </Routes>
-      </Layout>
+    </Layout>
       <Analytics />
       <SpeedInsights />
     </>
