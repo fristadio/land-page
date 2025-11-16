@@ -220,7 +220,6 @@ export function CityAutocomplete({
       {/* Search input */}
       <div className="relative" ref={wrapperRef}>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             type="text"
             value={query}
@@ -228,10 +227,12 @@ export function CityAutocomplete({
             onFocus={() => query.length >= 2 && setShowSuggestions(true)}
             placeholder={canAddMore ? t.placeholder : t.maxReached}
             disabled={!canAddMore}
-            className="pl-10 pr-10"
+            className="pr-10"
           />
-          {loading && (
+          {loading ? (
             <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-muted-foreground" />
+          ) : (
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           )}
         </div>
 
