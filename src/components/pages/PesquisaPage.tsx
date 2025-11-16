@@ -6,7 +6,6 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 import { FristadLogo } from "../FristadLogo";
-import { MultiStepProgress } from "../MultiStepProgress";
 import { CityAutocomplete } from "../CityAutocomplete";
 import { dict, getLang, setLang, type Lang } from "../../i18n";
 import { PrivacyPolicyModal } from "../PrivacyPolicyModal";
@@ -395,18 +394,27 @@ export function PesquisaPage() {
           </Button>
         </div>
 
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-6">
+        {/* Logo and Header */}
+        <div className="text-center mb-8 space-y-6">
+          <div className="flex justify-center">
             <FristadLogo size="2xl" />
           </div>
 
-          {/* Tabs Progress */}
-          <MultiStepProgress
-            currentStep={currentStep}
-            totalSteps={4}
-            stepLabels={tt.steps}
-          />
+          <div className="space-y-3">
+            <h1 className="text-3xl font-bold">
+              {lang === 'pt' ? 'Formulário de Interesse' : 'Interest Form'}
+            </h1>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              {lang === 'pt' 
+                ? 'Deixe seu contato e preferências para receber acesso prioritário aos hubs piloto da Fristad.'
+                : 'Leave your contact and preferences to get priority access to Fristad pilot hubs.'}
+            </p>
+          </div>
+
+          {/* Simple step indicator */}
+          <div className="text-sm text-muted-foreground">
+            {lang === 'pt' ? 'Etapa' : 'Step'} {currentStep} {lang === 'pt' ? 'de' : 'of'} 4
+          </div>
         </div>
 
         {/* Form card */}
