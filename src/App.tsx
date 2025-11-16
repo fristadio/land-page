@@ -55,6 +55,11 @@ export default function App() {
     ? siteMetadata.siteUrl
     : `${siteMetadata.siteUrl}/${currentPage}`;
 
+  // Páginas placeholder que não devem ser indexadas
+  const placeholderPages = ['anfitrioes', 'arbitragem', 'hubs', 'faq', 'contato', 'legal', 'privacidade'];
+  const isPlaceholder = placeholderPages.includes(currentPage);
+  const shouldNoindex = isPlaceholder || currentPage === 'pesquisa' || currentPage === 'obrigado';
+
         return (
     <>
       <SEOHead
@@ -64,6 +69,7 @@ export default function App() {
         ogImage={pageMetadata.ogImage}
         ogType={pageMetadata.ogType}
         keywords={pageMetadata.keywords}
+        noindex={shouldNoindex}
       />
       <Layout currentPage={currentPage}>
         <Routes>
