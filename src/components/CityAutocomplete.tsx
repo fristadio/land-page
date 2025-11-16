@@ -94,32 +94,54 @@ export function CityAutocomplete({
 
       const data = await response.json();
       
-      // Filter and format results to show only cities/towns
+      // Filter and format results to show cities/towns/villages
       const cities: City[] = data
-        .filter((item: any) => 
-          item.type === 'city' || 
-          item.type === 'town' || 
-          item.type === 'municipality' ||
-          item.class === 'place'
-        )
+        .filter((item: any) => {
+          // Accept various place types that represent inhabited locations
+          const validTypes = ['city', 'town', 'village', 'municipality', 'hamlet', 'suburb', 'quarter'];
+          const validClasses = ['place', 'boundary'];
+          
+          return (
+            validTypes.includes(item.type) || 
+            validClasses.includes(item.class) ||
+            item.addresstype === 'city' ||
+            item.addresstype === 'town' ||
+            item.addresstype === 'village'
+          );
+        })
         .map((item: any) => {
+          // Extract city name from various possible fields
           const city = item.address?.city || 
                       item.address?.town || 
+                      item.address?.village ||
                       item.address?.municipality ||
+                      item.address?.suburb ||
+                      item.display_name?.split(',')[0] ||
                       item.name;
+          
+          const state = item.address?.state || '';
           const country = item.address?.country || '';
+          
+          // Build display name with state if available (helps differentiate same-named cities)
+          let displayName = city;
+          if (state && state !== city) {
+            displayName += `, ${state}`;
+          }
+          if (country) {
+            displayName += `, ${country}`;
+          }
           
           return {
             name: city,
             country: country,
-            displayName: `${city}${country ? ', ' + country : ''}`
+            displayName: displayName
           };
         })
         .filter((city: City, index: number, self: City[]) => 
-          // Remove duplicates
+          // Remove duplicates based on display name
           index === self.findIndex(c => c.displayName === city.displayName)
         )
-        .slice(0, 8); // Limit to 8 suggestions
+        .slice(0, 10); // Show up to 10 suggestions
 
       setSuggestions(cities);
       setShowSuggestions(true);
