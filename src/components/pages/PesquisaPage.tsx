@@ -371,57 +371,51 @@ export function PesquisaPage() {
   };
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 pt-20 pb-16 min-h-screen">
-      <div className="max-w-3xl mx-auto">
-        {/* Header with controls */}
-        <div className="flex justify-end mb-6">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleTheme}
-            className="p-2"
-            aria-label="Alternar tema"
-          >
-            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={toggleLang}
-            className="ml-2"
-            aria-label="Alternar idioma"
-          >
-            {lang === 'pt' ? dict.pt.common.langPT : dict.en.common.langEN}
-          </Button>
+    <section className="px-4 sm:px-6 lg:px-8 pt-12 pb-16 min-h-screen">
+      <div className="max-w-4xl mx-auto">
+        {/* Header with Logo and controls */}
+        <div className="flex items-center justify-between mb-8">
+          <FristadLogo size="lg" />
+          
+          <div className="flex gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleTheme}
+              className="p-2"
+              aria-label="Alternar tema"
+            >
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleLang}
+              className="px-3"
+              aria-label="Alternar idioma"
+            >
+              {lang === 'pt' ? dict.pt.common.langPT : dict.en.common.langEN}
+            </Button>
+          </div>
         </div>
 
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-6">
-            <FristadLogo size="2xl" />
-          </div>
-
-          {/* Progress indicator */}
+        {/* Form card with tabs */}
+        <Card className="p-6 sm:p-8">
+          {/* Tabs Progress */}
           <MultiStepProgress
             currentStep={currentStep}
             totalSteps={4}
             stepLabels={tt.steps}
           />
-        </div>
-
-        {/* Form card */}
-        <Card className="p-6 sm:p-8">
           {/* Step 1: Cities */}
           {currentStep === 1 && (
-            <div className="space-y-6">
-              <div className="text-center space-y-2">
-                <div className="flex justify-center mb-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-primary" />
-                  </div>
+            <div className="space-y-5 py-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">{tt.step1.title}</h2>
                 </div>
-                <h2 className="text-2xl font-bold">{tt.step1.title}</h2>
-                <p className="text-muted-foreground">{tt.step1.subtitle}</p>
+                <p className="text-sm text-muted-foreground">{tt.step1.subtitle}</p>
               </div>
 
               <CityAutocomplete
@@ -435,20 +429,18 @@ export function PesquisaPage() {
 
           {/* Step 2: Needs & Accommodation */}
           {currentStep === 2 && (
-            <div className="space-y-6">
-              <div className="text-center space-y-2">
-                <div className="flex justify-center mb-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Home className="w-6 h-6 text-primary" />
-                  </div>
+            <div className="space-y-5 py-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Home className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">{tt.step2.title}</h2>
                 </div>
-                <h2 className="text-2xl font-bold">{tt.step2.title}</h2>
-                <p className="text-muted-foreground">{tt.step2.subtitle}</p>
+                <p className="text-sm text-muted-foreground">{tt.step2.subtitle}</p>
               </div>
 
               {/* Needs checkboxes */}
               <div className="space-y-3">
-                <h3 className="font-medium">{tt.step2.title}</h3>
+                <h3 className="text-sm font-medium">{tt.step2.title}</h3>
                 <div className="grid sm:grid-cols-2 gap-3">
                   {Object.entries(tt.step2.needs).map(([key, label]) => (
                     <label
@@ -470,7 +462,7 @@ export function PesquisaPage() {
 
               {/* Accommodation type */}
               <div className="space-y-3">
-                <h3 className="font-medium">{tt.step2.accommodation.title}</h3>
+                <h3 className="text-sm font-medium">{tt.step2.accommodation.title}</h3>
                 <div className="space-y-2">
                   {Object.entries(tt.step2.accommodation)
                     .filter(([key]) => key !== 'title')
@@ -500,20 +492,18 @@ export function PesquisaPage() {
 
           {/* Step 3: Logistics */}
           {currentStep === 3 && (
-            <div className="space-y-6">
-              <div className="text-center space-y-2">
-                <div className="flex justify-center mb-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Calendar className="w-6 h-6 text-primary" />
-                  </div>
+            <div className="space-y-5 py-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">{tt.step3.title}</h2>
                 </div>
-                <h2 className="text-2xl font-bold">{tt.step3.title}</h2>
-                <p className="text-muted-foreground">{tt.step3.subtitle}</p>
+                <p className="text-sm text-muted-foreground">{tt.step3.subtitle}</p>
               </div>
 
               {/* Budget */}
               <div className="space-y-3">
-                <h3 className="font-medium">{tt.step3.budget.title}</h3>
+                <h3 className="text-sm font-medium">{tt.step3.budget.title}</h3>
                 <div className="grid sm:grid-cols-2 gap-2">
                   {Object.entries(tt.step3.budget)
                     .filter(([key]) => key !== 'title')
@@ -533,7 +523,7 @@ export function PesquisaPage() {
 
               {/* Duration */}
               <div className="space-y-3">
-                <h3 className="font-medium">{tt.step3.duration.title}</h3>
+                <h3 className="text-sm font-medium">{tt.step3.duration.title}</h3>
                 <div className="grid sm:grid-cols-2 gap-2">
                   {Object.entries(tt.step3.duration)
                     .filter(([key]) => key !== 'title')
@@ -553,7 +543,7 @@ export function PesquisaPage() {
 
               {/* Start Date */}
               <div className="space-y-3">
-                <h3 className="font-medium">{tt.step3.startDate.title}</h3>
+                <h3 className="text-sm font-medium">{tt.step3.startDate.title}</h3>
                 <Input
                   type="text"
                   value={startDate}
@@ -569,15 +559,13 @@ export function PesquisaPage() {
 
           {/* Step 4: Profile */}
           {currentStep === 4 && (
-            <div className="space-y-6">
-              <div className="text-center space-y-2">
-                <div className="flex justify-center mb-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                    <User className="w-6 h-6 text-primary" />
-                  </div>
+            <div className="space-y-5 py-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <User className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">{tt.step4.title}</h2>
                 </div>
-                <h2 className="text-2xl font-bold">{tt.step4.title}</h2>
-                <p className="text-muted-foreground">{tt.step4.subtitle}</p>
+                <p className="text-sm text-muted-foreground">{tt.step4.subtitle}</p>
               </div>
 
               <div className="space-y-4">
@@ -599,7 +587,7 @@ export function PesquisaPage() {
 
                 {/* Languages */}
                 <div className="space-y-3">
-                  <h3 className="font-medium">{tt.step4.languages.title}</h3>
+                  <h3 className="text-sm font-medium">{tt.step4.languages.title}</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {Object.entries(tt.step4.languages)
                       .filter(([key]) => key !== 'title')
