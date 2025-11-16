@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -9,7 +8,6 @@ import { ObrigadoPage } from "./components/pages/ObrigadoPage";
 
 export default function App() {
   const location = useLocation();
-  const [persona, setPersona] = useState<'anfitriao' | 'nomade' | ''>('');
 
   // Map location pathname to page name for SEO
   const getPageName = (pathname: string): string => {
@@ -42,7 +40,7 @@ export default function App() {
       <Routes>
         <Route 
           path="/" 
-          element={<PesquisaPage persona={persona} setPersona={setPersona} />} 
+          element={<PesquisaPage />} 
         />
         <Route 
           path="/obrigado" 

@@ -12,16 +12,11 @@ import { dict, getLang, setLang, type Lang } from "../../i18n";
 import { PrivacyPolicyModal } from "../PrivacyPolicyModal";
 import { postInterest } from "../../lib/api";
 
-interface PesquisaPageProps {
-  persona: 'anfitriao' | 'nomade' | '';
-  setPersona: (persona: 'anfitriao' | 'nomade' | '') => void;
-}
-
 type AccommodationType = 'private_room' | 'apartment_studio' | 'apartment_1_2br' | 'house' | 'coliving' | '';
 type Budget = 'under_500' | '500-1000' | '1000-1500' | '1500-2000' | '2000-3000' | 'over_3000' | '';
 type Duration = '1-month' | '2-3-months' | '3-6-months' | '6-12-months' | '1-year-plus' | 'flexible' | '';
 
-export function PesquisaPage({ persona, setPersona }: PesquisaPageProps) {
+export function PesquisaPage() {
   const navigate = useNavigate();
   const [isDark, setIsDark] = useState(false);
   const [lang, setLangState] = useState<Lang>('pt');
