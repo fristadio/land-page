@@ -1,12 +1,16 @@
 export interface InterestPayload {
-  persona: 'anfitriao' | 'arbitro' | 'nomade';
+  persona: 'nomade';
   email: string;
-  name?: string;
+  name: string;
   nostr?: string;
-  countries?: string;
-  propertyTitle?: string;
-  propertyLocation?: string;
-  propertySummary?: string;
+  cities: string[];
+  needs: string[];
+  accommodationType: string;
+  budget: string;
+  duration: string;
+  startDate?: string;
+  languages: string[];
+  bio?: string;
   consent: boolean;
 }
 

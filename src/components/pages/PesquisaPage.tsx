@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Moon, Sun } from "lucide-react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
-import { dict, getLang, type Lang } from "../../i18n";
+import { FristadLogo } from "../FristadLogo";
+import { dict, getLang, setLang, type Lang } from "../../i18n";
 import { PrivacyPolicyModal } from "../PrivacyPolicyModal";
 import { postInterest } from "../../lib/api";
 
@@ -16,8 +17,30 @@ interface PesquisaPageProps {
 
 export function PesquisaPage({ persona, setPersona }: PesquisaPageProps) {
   const navigate = useNavigate();
+  const [isDark, setIsDark] = useState(false);
   const [lang, setLangState] = useState<Lang>('pt');
-  useEffect(() => setLangState(getLang()), []);
+  
+  useEffect(() => {
+    const stored = localStorage.getItem('fristad-theme');
+    if (stored === 'dark') {
+      setIsDark(true);
+      document.documentElement.classList.add('dark');
+    }
+    setLangState(getLang());
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem('fristad-theme', !isDark ? 'dark' : 'light');
+  };
+
+  const toggleLang = () => {
+    const next = lang === 'pt' ? 'en' : 'pt';
+    setLang(next);
+    setLangState(next);
+  };
+
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [nostr, setNostr] = useState("");
@@ -58,7 +81,31 @@ export function PesquisaPage({ persona, setPersona }: PesquisaPageProps) {
   return (
     <section className="px-4 sm:px-6 lg:px-8 pt-20 pb-16 min-h-screen">
       <div className="max-w-2xl mx-auto">
+        <div className="flex justify-end mb-6">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleTheme}
+            className="p-2"
+            aria-label="Alternar tema"
+          >
+            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleLang}
+            className="ml-2"
+            aria-label="Alternar idioma"
+          >
+            {lang === 'pt' ? dict.pt.common.langPT : dict.en.common.langEN}
+          </Button>
+        </div>
+
         <div className="text-center space-y-6 mb-8">
+          <div className="flex justify-center">
+            <FristadLogo size="2xl" />
+          </div>
           <h1>{lang === 'pt' ? dict.pt.pesquisa.title : dict.en.pesquisa.title}</h1>
           <p className="text-muted-foreground">
             {lang === 'pt' ? dict.pt.pesquisa.intro : dict.en.pesquisa.intro}
