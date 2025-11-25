@@ -47,6 +47,7 @@ export function PesquisaPage() {
 
   // Step 2: Needs & Accommodation
   const [needs, setNeeds] = useState<string[]>([]);
+  const [othersNeeds, setOthersNeeds] = useState("");
   const [accommodationType, setAccommodationType] = useState<AccommodationType>('');
 
   // Step 3: Logistics
@@ -295,7 +296,7 @@ export function PesquisaPage() {
       case 1:
         return cities.length > 0;
       case 2:
-        return needs.length > 0 && accommodationType !== '';
+        return accommodationType !== '';
       case 3:
         return budget !== '' && duration !== '';
       case 4:
@@ -314,8 +315,7 @@ export function PesquisaPage() {
       // Show validation error
       if (currentStep === 1 && cities.length === 0) setError(tt.validation.step1);
       if (currentStep === 2) {
-        if (needs.length === 0) setError(tt.validation.step2needs);
-        else if (accommodationType === '') setError(tt.validation.step2accommodation);
+        if (accommodationType === '') setError(tt.validation.step2accommodation);
       }
       if (currentStep === 3) {
         if (budget === '') setError(tt.validation.step3budget);
@@ -346,13 +346,19 @@ export function PesquisaPage() {
     setError(null);
 
     try {
+      // Combine predefined needs with custom "others" field
+      const allNeeds = [...needs];
+      if (othersNeeds.trim()) {
+        allNeeds.push(`outros: ${othersNeeds.trim()}`);
+      }
+
       await postInterest({
         persona: 'nomade',
         email,
         name,
         nostr: nostr || undefined,
         cities,
-        needs,
+        needs: allNeeds,
         accommodationType,
         budget,
         duration,
@@ -396,8 +402,13 @@ export function PesquisaPage() {
 
         {/* Logo and Header */}
         <div className="text-center mb-8 space-y-6">
-          <div className="flex justify-center">
-            <FristadLogo size="2xl" />
+          <div className="space-y-2">
+            <div className="flex justify-center">
+              <FristadLogo size="2xl" />
+            </div>
+            <p className="text-lg text-muted-foreground">
+              {lang === 'pt' ? 'Moradia sem Fronteiras' : 'Housing without Borders'}
+            </p>
           </div>
 
           <div className="space-y-3">
@@ -456,7 +467,7 @@ export function PesquisaPage() {
 
               {/* Needs checkboxes */}
               <div className="space-y-3">
-                <h3 className="font-medium">{tt.step2.title}</h3>
+                <h3 className="font-medium">{tt.step2.title} {lang === 'pt' ? '(opcional)' : '(optional)'}</h3>
                 <div className="grid sm:grid-cols-2 gap-3">
                   {Object.entries(tt.step2.needs).map(([key, label]) => (
                     <label
@@ -473,6 +484,19 @@ export function PesquisaPage() {
                       <span className="text-sm">{label}</span>
                     </label>
                   ))}
+                </div>
+                
+                {/* Others input */}
+                <div className="pt-2">
+                  <label className="block text-sm font-medium mb-2">
+                    {lang === 'pt' ? 'Outros (especifique):' : 'Others (specify):'}
+                  </label>
+                  <Input
+                    type="text"
+                    value={othersNeeds}
+                    onChange={(e) => setOthersNeeds(e.target.value)}
+                    placeholder={lang === 'pt' ? 'Ex: Piscina, academia, pet-friendly...' : 'e.g., Pool, gym, pet-friendly...'}
+                  />
                 </div>
               </div>
 

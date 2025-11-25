@@ -65,15 +65,15 @@ export function Layout({ children, currentPage }: LayoutProps) {
                 const itemPage = item.href === '/' ? 'home' : item.href.slice(1);
                 return (
                   <Link
-                    key={item.href}
+                  key={item.href}
                     to={item.href}
-                    className={`text-sm font-medium transition-colors hover:text-primary ${
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
                       currentPage === itemPage
-                        ? 'text-primary' 
-                        : 'text-muted-foreground'
-                    }`}
-                  >
-                    {item.name}
+                      ? 'text-primary' 
+                      : 'text-muted-foreground'
+                  }`}
+                >
+                  {item.name}
                   </Link>
                 );
               })}
@@ -93,17 +93,17 @@ export function Layout({ children, currentPage }: LayoutProps) {
 
               <div className="hidden md:flex items-center space-x-2">
                 <Link to="/contato">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                  >
-                    Quero participar
-                  </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                >
+                  Quero participar
+                </Button>
                 </Link>
                 <Link to="/anfitrioes">
                   <Button size="sm">
-                    Quero hospedar
-                  </Button>
+                  Quero hospedar
+                </Button>
                 </Link>
               </div>
 
@@ -129,36 +129,36 @@ export function Layout({ children, currentPage }: LayoutProps) {
                 const itemPage = item.href === '/' ? 'home' : item.href.slice(1);
                 return (
                   <Link
-                    key={item.href}
+                  key={item.href}
                     to={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                       currentPage === itemPage
-                        ? 'bg-primary/10 text-primary'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                    }`}
-                  >
-                    {item.name}
+                      ? 'bg-primary/10 text-primary'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
+                >
+                  {item.name}
                   </Link>
                 );
               })}
               <div className="pt-3 space-y-2">
                 <Link to="/contato" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="w-full"
-                  >
-                    Quero participar
-                  </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full"
+                >
+                  Quero participar
+                </Button>
                 </Link>
                 <Link to="/anfitrioes" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button 
-                    size="sm" 
-                    className="w-full"
-                  >
-                    Quero hospedar
-                  </Button>
+                <Button 
+                  size="sm" 
+                  className="w-full"
+                >
+                  Quero hospedar
+                </Button>
                 </Link>
               </div>
             </div>

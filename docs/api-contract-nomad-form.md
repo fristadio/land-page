@@ -40,7 +40,7 @@ interface InterestPayload {
 | `name` | `string` | ✅ | Nome completo | `"João Silva"` |
 | `nostr` | `string` | ❌ | Public key Nostr (npub...) | `"npub1abc..."` |
 | `cities` | `string[]` | ✅ | Array de 1-5 cidades | `["Lisboa", "Barcelona"]` |
-| `needs` | `string[]` | ✅ | Necessidades selecionadas (min 1) | `["wifi_fast", "workspace"]` |
+| `needs` | `string[]` | ❌ | Necessidades selecionadas (opcional) | `["wifi_fast", "workspace"]` ou `[]` |
 | `accommodationType` | `string` | ✅ | Tipo de acomodação preferida | `"apartment_studio"` |
 | `budget` | `string` | ✅ | Faixa de orçamento mensal | `"1000-1500"` |
 | `duration` | `string` | ✅ | Duração da estadia | `"3-6-months"` |
@@ -55,7 +55,7 @@ interface InterestPayload {
 
 ### `needs` - Necessidades
 
-Valores possíveis (o usuário pode selecionar múltiplos):
+Valores possíveis (o usuário pode selecionar múltiplos, ou deixar vazio):
 
 - `wifi_fast` - WiFi rápido (100+ Mbps)
 - `workspace` - Workspace dedicado
@@ -65,6 +65,9 @@ Valores possíveis (o usuário pode selecionar múltiplos):
 - `kitchen` - Cozinha equipada
 - `laundry` - Lavanderia
 - `pets` - Animais permitidos
+- `outros: <texto livre>` - Necessidades personalizadas (ex: `"outros: Piscina, pet-friendly"`)
+
+**Nota:** O campo é opcional. Se o usuário preencher o campo "Outros" no formulário, o valor será adicionado ao array com o prefixo `"outros: "`.
 
 ### `accommodationType` - Tipo de Acomodação
 
@@ -158,11 +161,28 @@ Content-Type: application/json
   "email": "maria@example.com",
   "name": "Maria Santos",
   "cities": ["Porto, Portugal"],
-  "needs": ["wifi_fast"],
+  "needs": [],
   "accommodationType": "private_room",
   "budget": "500-1000",
   "duration": "1-month",
   "languages": ["pt"],
+  "consent": true
+}
+```
+
+### Request com Necessidade Personalizada
+
+```json
+{
+  "persona": "nomade",
+  "email": "carlos@example.com",
+  "name": "Carlos Mendes",
+  "cities": ["Gramado, Brazil"],
+  "needs": ["wifi_fast", "workspace", "outros: Piscina, sauna, pet-friendly"],
+  "accommodationType": "house",
+  "budget": "2000-3000",
+  "duration": "6-12-months",
+  "languages": ["pt", "en"],
   "consent": true
 }
 ```
@@ -195,7 +215,7 @@ Content-Type: application/json
 Possíveis erros de validação:
 - Email inválido
 - `cities` vazio ou com mais de 5 itens
-- `needs` vazio
+- `needs` contém valores inválidos (não está no enum e não tem prefixo "outros:")
 - `accommodationType` não está na lista permitida
 - `consent` não é `true`
 - Campos obrigatórios faltando
@@ -228,10 +248,10 @@ Possíveis erros de validação:
    - Máximo: 5 cidades
    - Cada item: string não vazia
 
-4. **Needs:**
-   - Array não vazio
-   - Mínimo: 1 necessidade
-   - Todos os valores devem estar no enum permitido
+4. **Needs (OPCIONAL):**
+   - Array (pode ser vazio)
+   - Valores predefinidos devem estar no enum permitido
+   - Valores com prefixo `"outros: "` são aceitos como texto livre
 
 5. **AccommodationType:**
    - Deve estar no enum permitido
@@ -345,11 +365,14 @@ export async function postInterest(request: HttpRequest, context: InvocationCont
       return { status: 400, jsonBody: { error: 'Cities must contain 1-5 items' } };
     }
     
-    if (!Array.isArray(body.needs) || body.needs.length === 0) {
-      return { status: 400, jsonBody: { error: 'At least one need is required' } };
+    // Needs is optional, but validate format if provided
+    if (!Array.isArray(body.needs)) {
+      return { status: 400, jsonBody: { error: 'Needs must be an array' } };
     }
     
-    if (!body.needs.every(n => ALLOWED_NEEDS.includes(n))) {
+    // Validate predefined needs (allow custom needs with "outros:" prefix)
+    const invalidNeeds = body.needs.filter(n => !ALLOWED_NEEDS.includes(n) && !n.startsWith('outros:'));
+    if (invalidNeeds.length > 0) {
       return { status: 400, jsonBody: { error: 'Invalid needs value' } };
     }
     
