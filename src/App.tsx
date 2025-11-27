@@ -5,6 +5,7 @@ import { SEOHead } from "./components/SEOHead";
 import { getPageMetadata, siteMetadata } from "./config/seo";
 import { PesquisaPage } from "./components/pages/PesquisaPage";
 import { ObrigadoPage } from "./components/pages/ObrigadoPage";
+import { EnglishRedirect } from "./components/EnglishRedirect";
 
 export default function App() {
   const location = useLocation();
@@ -41,6 +42,10 @@ export default function App() {
         <Route 
           path="/" 
           element={<PesquisaPage />} 
+        />
+        <Route 
+          path="/en" 
+          element={<EnglishRedirect />} 
         />
         <Route 
           path="/obrigado" 
